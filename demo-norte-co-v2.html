@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NORTE CO. — Ropa y Accesorios · Nogales, Sonora</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ── TOKENS ── */
+:root{--k:#0a0a0a;--w:#fafafa;--g1:#f4f4f4;--g2:#e5e5e5;--g3:#a3a3a3;--g4:#525252;--r:3px;--ease:cubic-bezier(.4,0,.2,1)}
+/* ── RESET ── */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--w);color:var(--k);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block;object-fit:cover}
+button{font-family:'Inter',sans-serif;cursor:pointer;border:none;background:none}
+
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;background:var(--k);z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity .5s .2s}
+#loader.out{opacity:0;pointer-events:none}
+.loader-logo{font-family:'Poppins',sans-serif;font-size:48px;font-weight:900;color:var(--w);letter-spacing:-2px;animation:pulse 1s ease-in-out infinite alternate}
+@keyframes pulse{to{opacity:.4}}
+
+/* ── ANNOUNCEMENT BAR ── */
+.announce{background:var(--k);color:var(--w);text-align:center;padding:10px 16px;font-size:13px;font-weight:500;letter-spacing:.3px}
+.announce span{color:#d4af37;font-weight:700}
+
+/* ── NAVBAR ── */
+nav{position:sticky;top:0;z-index:900;background:rgba(250,250,250,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--g2);padding:0 32px;height:64px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.nav-left{display:flex;align-items:center;gap:20px}
+.nav-hamburger{font-size:18px;color:var(--k);transition:opacity .2s}
+.nav-hamburger:hover{opacity:.5}
+.nav-logo{font-family:'Poppins',sans-serif;font-weight:900;font-size:22px;letter-spacing:-1px;color:var(--k);text-align:center}
+.nav-logo span{color:var(--g3)}
+.nav-right{display:flex;align-items:center;gap:18px;justify-content:flex-end}
+.nav-icon{font-size:18px;color:var(--k);transition:opacity .2s;position:relative;display:flex;align-items:center}
+.nav-icon:hover{opacity:.5}
+.cart-badge{position:absolute;top:-6px;right:-8px;background:var(--k);color:var(--w);font-size:10px;font-weight:700;width:17px;height:17px;border-radius:50%;display:none;align-items:center;justify-content:center}
+
+/* ── HERO ── */
+.hero{height:100vh;min-height:640px;position:relative;display:flex;align-items:flex-end;overflow:hidden}
+.hero-img{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1400&q=85') center/cover no-repeat;transform:scale(1.03);transition:transform 8s ease-out}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.85) 0%,rgba(10,10,10,.1) 60%)}
+.hero-content{position:relative;z-index:1;padding:0 48px 72px;max-width:900px}
+.hero-eyebrow{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:16px;animation:fadeUp .8s ease both}
+.hero-title{font-family:'Poppins',sans-serif;font-size:clamp(52px,7vw,96px);font-weight:900;line-height:.97;letter-spacing:-3px;color:var(--w);margin-bottom:28px;animation:fadeUp .8s .1s ease both}
+.hero-btns{display:flex;gap:12px;animation:fadeUp .8s .2s ease both}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;font-size:14px;font-weight:700;border-radius:var(--r);transition:all .2s var(--ease);text-decoration:none}
+.btn-white{background:var(--w);color:var(--k)}
+.btn-white:hover{background:var(--g1);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.btn-outline-white{background:transparent;color:var(--w);border:2px solid rgba(255,255,255,.5)}
+.btn-outline-white:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── FEATURED STRIP ── */
+.feat-strip{background:var(--g1);padding:20px 32px;display:flex;align-items:center;gap:40px;overflow-x:auto;scrollbar-width:none}
+.feat-strip::-webkit-scrollbar{display:none}
+.feat-item{display:flex;align-items:center;gap:10px;white-space:nowrap;color:var(--g4);font-size:13px;font-weight:600;flex-shrink:0}
+.feat-item i{color:var(--k);font-size:16px}
+
+/* ── CATALOG SECTION ── */
+.catalog{padding:64px 32px}
+.catalog-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px}
+.catalog-head h2{font-family:'Poppins',sans-serif;font-size:28px;font-weight:900;letter-spacing:-1px}
+.filter-tabs{display:flex;gap:0;border:1px solid var(--g2);border-radius:var(--r);overflow:hidden}
+.filter-tab{padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;color:var(--g4);background:var(--w);border:none;border-right:1px solid var(--g2);transition:all .2s;font-family:'Inter',sans-serif}
+.filter-tab:last-child{border-right:none}
+.filter-tab.active{background:var(--k);color:var(--w)}
+.filter-tab:not(.active):hover{background:var(--g1);color:var(--k)}
+.product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+
+/* ── PRODUCT CARD ── */
+.product-card{position:relative;cursor:pointer}
+.product-card[style*="display: none"]{display:none!important}
+.product-img-wrap{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--g1);border-radius:var(--r);margin-bottom:10px}
+.product-img-main{width:100%;height:100%;transition:opacity .4s,transform .6s var(--ease)}
+.product-img-hover{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .4s}
+.product-card:hover .product-img-main{opacity:0;transform:scale(1.06)}
+.product-card:hover .product-img-hover{opacity:1}
+.product-badge{position:absolute;top:10px;left:10px;background:var(--k);color:var(--w);font-size:10px;font-weight:700;padding:3px 8px;border-radius:var(--r);letter-spacing:.5px;text-transform:uppercase;z-index:2}
+.product-badge.sale{background:#dc2626}
+.product-badge.new{background:var(--k)}
+.wishlist-btn{position:absolute;top:10px;right:10px;width:32px;height:32px;background:var(--w);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--g3);transition:all .2s;z-index:2;border:none;cursor:pointer;opacity:0}
+.product-card:hover .wishlist-btn{opacity:1}
+.wishlist-btn:hover{color:#ef4444;transform:scale(1.1)}
+.wishlist-btn.active{color:#ef4444;opacity:1}
+/* Quick add strip */
+.quick-add{position:absolute;bottom:0;left:0;right:0;background:rgba(10,10,10,.9);padding:10px 8px;transform:translateY(100%);transition:transform .3s var(--ease);display:flex;gap:5px;justify-content:center;z-index:3;flex-wrap:wrap}
+.product-card:hover .quick-add{transform:translateY(0)}
+.qs{background:rgba(255,255,255,.12);color:var(--w);border:1px solid rgba(255,255,255,.2);border-radius:var(--r);padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
+.qs:hover{background:var(--w);color:var(--k)}
+/* Card info */
+.product-info h3{font-size:14px;font-weight:600;margin-bottom:3px}
+.product-info .product-cat{font-size:12px;color:var(--g3);margin-bottom:5px}
+.product-info .price-row{display:flex;align-items:center;gap:8px}
+.product-info .price{font-size:15px;font-weight:700}
+.product-info .price-old{font-size:13px;color:var(--g3);text-decoration:line-through}
+.color-dots{display:flex;gap:4px;margin-top:6px}
+.cdot{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.12);cursor:pointer;transition:transform .2s}
+.cdot:hover{transform:scale(1.25)}
+
+/* ── CART SIDEBAR ── */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-sidebar{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:100vw;background:var(--w);z-index:1001;transform:translateX(100%);transition:transform .4s var(--ease);display:flex;flex-direction:column}
+.cart-sidebar.open{transform:translateX(0)}
+.cart-header{padding:20px 24px;border-bottom:1px solid var(--g2);display:flex;align-items:center;justify-content:space-between}
+.cart-header h3{font-family:'Poppins',sans-serif;font-size:18px;font-weight:800}
+.cart-close{font-size:22px;color:var(--g3);transition:color .2s;border:none;background:none;cursor:pointer}
+.cart-close:hover{color:var(--k)}
+.cart-body{flex:1;overflow-y:auto;padding:16px 24px}
+.cart-empty-msg{text-align:center;padding:48px 0;color:var(--g3)}
+.cart-empty-msg i{font-size:40px;display:block;margin-bottom:12px}
+.cart-item{display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:start;padding:14px 0;border-bottom:1px solid var(--g1)}
+.cart-item img{width:72px;height:96px;object-fit:cover;border-radius:var(--r);background:var(--g1)}
+.ci-name{font-size:14px;font-weight:600;margin-bottom:3px}
+.ci-meta{font-size:12px;color:var(--g3);margin-bottom:8px}
+.ci-qty{display:flex;align-items:center;gap:0;border:1px solid var(--g2);border-radius:var(--r);width:fit-content}
+.ci-qty button{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--k);transition:background .2s;background:none;border:none;cursor:pointer}
+.ci-qty button:hover{background:var(--g1)}
+.ci-qty span{font-size:13px;font-weight:600;padding:0 6px;min-width:24px;text-align:center}
+.ci-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.ci-price{font-size:14px;font-weight:700}
+.ci-remove{font-size:18px;color:var(--g3);border:none;background:none;cursor:pointer;transition:color .2s;padding:0}
+.ci-remove:hover{color:#dc2626}
+.cart-footer{padding:16px 24px;border-top:1px solid var(--g2)}
+.cart-subtotal{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.cart-subtotal span{font-size:14px;color:var(--g4)}
+.cart-subtotal strong{font-size:18px;font-weight:800}
+.cart-btn{width:100%;padding:15px;font-size:15px;font-weight:700;border-radius:var(--r);border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:8px}
+.cart-btn-wa{background:#25D366;color:#fff}
+.cart-btn-wa:hover{background:#1db954;transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.35)}
+.cart-btn-outline{background:transparent;border:2px solid var(--k);color:var(--k)}
+.cart-btn-outline:hover{background:var(--k);color:var(--w)}
+
+/* ── PRODUCT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1100;display:none;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--w);border-radius:6px;max-width:860px;width:100%;max-height:90vh;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;animation:modalIn .3s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.modal-img{aspect-ratio:3/4;overflow:hidden;background:var(--g1)}
+.modal-img img{width:100%;height:100%;object-fit:cover}
+.modal-body{padding:36px;overflow-y:auto;display:flex;flex-direction:column}
+.modal-close{align-self:flex-end;font-size:22px;color:var(--g3);margin-bottom:16px;background:none;border:none;cursor:pointer;transition:color .2s}
+.modal-close:hover{color:var(--k)}
+.modal-cat{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--g3);margin-bottom:8px}
+.modal-name{font-family:'Poppins',sans-serif;font-size:24px;font-weight:900;letter-spacing:-0.5px;margin-bottom:6px}
+.modal-price{font-size:22px;font-weight:800;margin-bottom:20px}
+.modal-price .old{font-size:16px;color:var(--g3);text-decoration:line-through;margin-left:8px;font-weight:400}
+.modal-section{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--g4);margin-bottom:10px;margin-top:18px}
+.modal-colors{display:flex;gap:8px;flex-wrap:wrap}
+.m-color{width:28px;height:28px;border-radius:50%;cursor:pointer;transition:transform .2s;border:2px solid transparent}
+.m-color.active{border-color:var(--k);transform:scale(1.15)}
+.modal-sizes{display:flex;gap:8px;flex-wrap:wrap}
+.m-size{min-width:44px;height:40px;border:2px solid var(--g2);border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;background:var(--w);color:var(--k);font-family:'Inter',sans-serif;padding:0 10px}
+.m-size:hover:not(.unavailable){border-color:var(--k);background:var(--k);color:var(--w)}
+.m-size.active{border-color:var(--k);background:var(--k);color:var(--w)}
+.m-size.unavailable{color:var(--g3);text-decoration:line-through;cursor:default;opacity:.5}
+.modal-desc{font-size:14px;color:var(--g4);line-height:1.7;margin-top:8px}
+.modal-add{margin-top:auto;padding-top:24px;display:flex;flex-direction:column;gap:8px}
+.modal-add-btn{width:100%;padding:15px;font-size:15px;font-weight:700;border-radius:var(--r);border:none;cursor:pointer;background:var(--k);color:var(--w);font-family:'Inter',sans-serif;transition:all .2s}
+.modal-add-btn:hover{background:var(--g4);transform:translateY(-2px)}
+.modal-add-btn:disabled{background:var(--g2);color:var(--g3);cursor:default;transform:none}
+
+/* ── BRAND SECTION ── */
+.brand{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0 32px 64px;border-radius:6px;overflow:hidden}
+.brand-img{height:480px;background:url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80') center/cover}
+.brand-content{background:var(--k);color:var(--w);padding:64px 52px;display:flex;flex-direction:column;justify-content:center}
+.brand-content .chip{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:16px}
+.brand-content h2{font-family:'Poppins',sans-serif;font-size:36px;font-weight:900;letter-spacing:-1px;margin-bottom:16px;line-height:1.1}
+.brand-content p{font-size:15px;color:rgba(255,255,255,.65);line-height:1.8;margin-bottom:28px}
+.brand-content a{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--w);border-bottom:2px solid rgba(255,255,255,.3);padding-bottom:3px;transition:border-color .2s}
+.brand-content a:hover{border-color:var(--w)}
+
+/* ── NEWSLETTER ── */
+.newsletter{background:var(--g1);padding:64px 32px;text-align:center}
+.newsletter h2{font-family:'Poppins',sans-serif;font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:8px}
+.newsletter p{font-size:15px;color:var(--g4);margin-bottom:28px}
+.nl-form{display:flex;gap:0;max-width:440px;margin:0 auto;border:2px solid var(--k);border-radius:var(--r);overflow:hidden}
+.nl-form input{flex:1;padding:13px 16px;font-size:14px;border:none;outline:none;background:var(--w);font-family:'Inter',sans-serif}
+.nl-form button{padding:13px 24px;background:var(--k);color:var(--w);font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s}
+.nl-form button:hover{background:var(--g4)}
+
+/* ── FOOTER ── */
+footer{background:var(--k);color:rgba(255,255,255,.6);padding:52px 32px 24px}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand h3{font-family:'Poppins',sans-serif;font-size:20px;font-weight:900;color:var(--w);margin-bottom:8px;letter-spacing:-0.5px}
+.footer-brand p{font-size:13px;line-height:1.7;max-width:220px}
+.footer-socials{display:flex;gap:10px;margin-top:16px}
+.fsoc{width:34px;height:34px;background:rgba(255,255,255,.08);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:rgba(255,255,255,.6);transition:all .2s}
+.fsoc:hover{background:var(--w);color:var(--k);transform:translateY(-3px)}
+footer h4{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:14px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:9px}
+.footer-links a{font-size:14px;color:rgba(255,255,255,.55);transition:color .2s}
+.footer-links a:hover{color:var(--w)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:20px;display:flex;justify-content:space-between;font-size:12px;flex-wrap:wrap;gap:8px}
+
+/* ── WA FLOAT ── */
+.wa-float{position:fixed;bottom:28px;right:28px;z-index:800;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.wa-tip{background:var(--k);color:var(--w);font-size:13px;font-weight:600;padding:8px 14px;border-radius:4px;white-space:nowrap;opacity:0;transform:translateX(10px);transition:all .3s;pointer-events:none}
+.wa-float:hover .wa-tip{opacity:1;transform:translateX(0)}
+.wa-btn{width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;box-shadow:0 6px 24px rgba(37,211,102,.4);animation:waPulse 2.5s infinite}
+@keyframes waPulse{0%,100%{box-shadow:0 6px 24px rgba(37,211,102,.4)}50%{box-shadow:0 6px 36px rgba(37,211,102,.65),0 0 0 12px rgba(37,211,102,.08)}}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--k);color:var(--w);padding:12px 24px;border-radius:4px;font-size:14px;font-weight:600;opacity:0;transition:all .3s;z-index:2000;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .product-grid{grid-template-columns:repeat(3,1fr)}
+  .brand{grid-template-columns:1fr;margin:0 0 64px}
+  .brand-img{height:300px}
+  .footer-top{grid-template-columns:1fr 1fr;gap:28px}
+  .modal{grid-template-columns:1fr;max-height:95vh}
+  .modal-img{aspect-ratio:16/9}
+}
+@media(max-width:640px){
+  nav{padding:0 16px}
+  .catalog{padding:48px 16px}
+  .product-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .filter-tabs{overflow-x:auto;scrollbar-width:none}
+  .filter-tab{white-space:nowrap;padding:9px 14px}
+  .hero-content{padding:0 24px 52px}
+  .feat-strip{padding:16px}
+  .brand-content{padding:36px 28px}
+  .footer-top{grid-template-columns:1fr}
+  .cart-sidebar{width:100vw}
+  .hero-title{letter-spacing:-1.5px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader"><span class="loader-logo">NC.</span></div>
+
+<!-- ANNOUNCEMENT -->
+<div class="announce">
+  🚚 <span>Envío GRATIS</span> en pedidos mayores a $1,500 MXN &nbsp;|&nbsp; Nogales y toda la República
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-left">
+    <button class="nav-hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+  </div>
+  <a href="#" class="nav-logo">NORTE <span>CO.</span></a>
+  <div class="nav-right">
+    <button class="nav-icon" title="Buscar"><i class="fas fa-magnifying-glass"></i></button>
+    <button class="nav-icon" title="Favoritos"><i class="far fa-heart"></i></button>
+    <button class="nav-icon" title="Carrito" onclick="openCart()">
+      <i class="fas fa-shopping-bag"></i>
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-img" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Nueva colección — Otoño 2025</p>
+    <h1 class="hero-title">DEFINE<br>TU<br>ESTILO</h1>
+    <div class="hero-btns">
+      <a href="#catalogo" class="btn btn-white"><i class="fas fa-arrow-down"></i> Ver colección</a>
+      <a href="https://wa.me/52TUNUMERO" target="_blank" class="btn btn-outline-white"><i class="fab fa-whatsapp"></i> Contactar</a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES STRIP -->
+<div class="feat-strip">
+  <div class="feat-item"><i class="fas fa-truck"></i> Envío express 24h</div>
+  <div class="feat-item"><i class="fas fa-rotate-left"></i> Devoluciones gratis 30 días</div>
+  <div class="feat-item"><i class="fas fa-lock"></i> Pago 100% seguro</div>
+  <div class="feat-item"><i class="fab fa-whatsapp"></i> Atención por WhatsApp</div>
+  <div class="feat-item"><i class="fas fa-star"></i> Calidad garantizada</div>
+</div>
+
+<!-- CATÁLOGO -->
+<section class="catalog" id="catalogo">
+  <div class="catalog-head">
+    <h2>Colección 2025</h2>
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all">Todos</button>
+      <button class="filter-tab" data-filter="hoodies">Hoodies</button>
+      <button class="filter-tab" data-filter="camisetas">Camisetas</button>
+      <button class="filter-tab" data-filter="pantalones">Pantalones</button>
+      <button class="filter-tab" data-filter="accesorios">Accesorios</button>
+    </div>
+  </div>
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<!-- BRAND STORY -->
+<div class="brand" data-aos="fade-up">
+  <div class="brand-img"></div>
+  <div class="brand-content">
+    <span class="chip">Nuestra historia</span>
+    <h2>Hecho en el Norte para el mundo</h2>
+    <p>NORTE CO. nació en Nogales, Sonora con una sola misión: traerte ropa con carácter, calidad y un precio justo. Cada pieza de nuestra colección está pensada para quienes no siguen tendencias — las crean.</p>
+    <a href="#catalogo">Ver colección completa <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<!-- NEWSLETTER -->
+<div class="newsletter" data-aos="fade-up">
+  <h2>10% de descuento en tu primera compra</h2>
+  <p>Suscríbete y recibe ofertas exclusivas, nuevas colecciones y mucho más.</p>
+  <div class="nl-form">
+    <input type="email" placeholder="tu@correo.com">
+    <button onclick="subscribeNewsletter(this)">Suscribirme</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <h3>NORTE CO.</h3>
+      <p>Ropa y accesorios con estilo del Norte. Calidad premium, precio justo.</p>
+      <div class="footer-socials">
+        <a href="#" class="fsoc"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="fsoc"><i class="fab fa-tiktok"></i></a>
+        <a href="#" class="fsoc"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://wa.me/52TUNUMERO" class="fsoc"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div>
+      <h4>Tienda</h4>
+      <ul class="footer-links">
+        <li><a href="#catalogo">Todos los productos</a></li>
+        <li><a href="#catalogo">Hoodies</a></li>
+        <li><a href="#catalogo">Camisetas</a></li>
+        <li><a href="#catalogo">Pantalones</a></li>
+        <li><a href="#catalogo">Accesorios</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Ayuda</h4>
+      <ul class="footer-links">
+        <li><a href="#">Guía de tallas</a></li>
+        <li><a href="#">Envíos y entregas</a></li>
+        <li><a href="#">Devoluciones</a></li>
+        <li><a href="#">Preguntas frecuentes</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <ul class="footer-links">
+        <li><a href="#">Nogales, Sonora</a></li>
+        <li><a href="https://wa.me/52TUNUMERO">WhatsApp</a></li>
+        <li><a href="#">@nortecooficial</a></li>
+        <li><a href="#">norte@email.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 NORTE CO. · Nogales, Sonora · Todos los derechos reservados</span>
+    <span>Sitio web por <span style="color:#fff;font-weight:700">Nortek</span></span>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>Mi carrito <span id="cartCount" style="color:var(--g3);font-size:14px;font-weight:400"></span></h3>
+    <button class="cart-close" onclick="closeCart()">×</button>
+  </div>
+  <div class="cart-body" id="cartBody">
+    <div class="cart-empty-msg"><i class="fas fa-shopping-bag"></i> Tu carrito está vacío</div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-subtotal">
+      <span>Subtotal</span>
+      <strong id="cartTotal">$0 MXN</strong>
+    </div>
+    <button class="cart-btn cart-btn-wa" onclick="orderWhatsApp()">
+      <i class="fab fa-whatsapp" style="font-size:18px"></i> Ordenar por WhatsApp
+    </button>
+    <button class="cart-btn cart-btn-outline" onclick="closeCart()">Seguir comprando</button>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-img"><img id="modalImg" src="" alt=""></div>
+    <div class="modal-body">
+      <button class="modal-close" onclick="closeModalDirect()">×</button>
+      <div class="modal-cat" id="modalCat"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <div class="modal-section">Color</div>
+      <div class="modal-colors" id="modalColors"></div>
+      <div class="modal-section">Talla</div>
+      <div class="modal-sizes" id="modalSizes"></div>
+      <div class="modal-section">Descripción</div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-add">
+        <button class="modal-add-btn" id="modalAddBtn" onclick="addFromModal()">Agregar al carrito</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WA FLOAT -->
+<div class="wa-float">
+  <div class="wa-tip">💬 ¿Dudas? Escríbenos</div>
+  <a href="https://wa.me/52TUNUMERO?text=Hola%2C%20me%20interesa%20un%20producto" target="_blank" class="wa-btn">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+// ── PRODUCTS DATA ──────────────────────────────────────────
+const PRODUCTS = [
+  {id:1,name:'Hoodie Essential',cat:'hoodies',price:850,badge:'Nuevo',
+   img:'https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=600&q=80',
+   img2:'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80',
+   colors:[{name:'Negro',hex:'#0a0a0a'},{name:'Gris',hex:'#9ca3af'},{name:'Blanco',hex:'#f9fafb'}],
+   sizes:['XS','S','M','L','XL'],
+   desc:'Hoodie de algodón premium 320g. Capucha doble capa, bolsillo canguro y ajuste relajado. Perfecto para el clima fresco del Norte.'},
+  {id:2,name:'Tee Oversize',cat:'camisetas',price:450,badge:'',
+   img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&q=80',
+   img2:'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600&q=80',
+   colors:[{name:'Negro',hex:'#0a0a0a'},{name:'Blanco',hex:'#f9fafb'}],
+   sizes:['S','M','L','XL','XXL'],
+   desc:'Camiseta oversize de algodón 100% peinado. Corte relajado caído en hombros. Ideal para usar sola o con layers.'},
+  {id:3,name:'Jogger Cargo',cat:'pantalones',price:780,badge:'',
+   img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80',
+   img2:'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&q=80',
+   colors:[{name:'Negro',hex:'#0a0a0a'},{name:'Kaki',hex:'#92400e'}],
+   sizes:['S','M','L','XL'],
+   desc:'Jogger cargo con bolsillos laterales funcionales, cintura elástica ajustable y tobillo con puño. Cómodo y versátil.'},
+  {id:4,name:'Cap Structured',cat:'accesorios',price:350,badge:'',
+   img:'https://images.unsplash.com/photo-1588361861040-ac9b1018f6d5?w=600&q=80',
+   img2:'https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=600&q=80',
+   colors:[{name:'Negro',hex:'#0a0a0a'},{name:'Blanco',hex:'#f9fafb'},{name:'Gris',hex:'#6b7280'}],
+   sizes:['Única'],
+   desc:'Cap estructurado con bordado frontal. Cierre ajustable trasero y visera curva. Logo NORTE CO. en hilo reflectivo.'},
+  {id:5,name:'Hoodie Zip Premium',cat:'hoodies',price:1100,badge:'Premium',
+   img:'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80',
+   img2:'https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=600&q=80',
+   colors:[{name:'Negro',hex:'#0a0a0a'},{name:'Gris oscuro',hex:'#374151'}],
+   sizes:['S','M','L','XL'],
+   desc:'Hoodie con cierre completo, tejido French Terry 380g, bolsillos con cierre. Acabado premium, ideal para clima frío.'},
+  {id:6,name:'Tee Gráfica NC.',cat:'camisetas',price:550,badge:'',
+   img:'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?w=600&q=80',
+   img2:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&q=80',
+   colors:[{name:'Negro',hex:'#0a0a0a'},{name:'Blanco',hex:'#f9fafb'}],
+   sizes:['S','M','L','XL'],
+   desc:'Camiseta con gráfico exclusivo diseñado por el equipo NORTE CO. Serigrafía de alta resolución que no se desvanece.'},
+  {id:7,name:'Pantalón Slim',cat:'pantalones',price:820,badge:'',
+   img:'https://images.unsplash.com/photo-1594938298603-c8148c4b4d14?w=600&q=80',
+   img2:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80',
+   colors:[{name:'Negro',hex:'#0a0a0a'}],
+   sizes:['28','30','32','34','36'],
+   desc:'Pantalón slim fit de gabardina premium. Corte moderno que combina con cualquier outfit. Tela resistente y confortable.'},
+  {id:8,name:'Shoulder Bag NC.',cat:'accesorios',price:650,badge:'Trending',
+   img:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80',
+   img2:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80',
+   colors:[{name:'Negro',hex:'#0a0a0a'},{name:'Café',hex:'#78350f'}],
+   sizes:['Única'],
+   desc:'Shoulder bag compacta con correa ajustable. Compartimento principal + bolsillo frontal con cierre. Piel sintética premium.'},
+];
+
+// ── CART STATE ─────────────────────────────────────────────
+let cart = [];
+let activeProduct = null;
+let selectedColor = null;
+let selectedSize = null;
+
+// ── INIT ───────────────────────────────────────────────────
+AOS.init({duration:700,once:true,offset:40});
+
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loader').classList.add('out'), 800);
+  renderProducts('all');
+  scaleHero();
+});
+
+// ── HERO PARALLAX ──────────────────────────────────────────
+function scaleHero(){
+  window.addEventListener('scroll', () => {
+    document.getElementById('heroBg').style.transform = `scale(1.03) translateY(${scrollY * .12}px)`;
+  });
+}
+
+// ── RENDER PRODUCTS ────────────────────────────────────────
+function renderProducts(filter){
+  const grid = document.getElementById('productGrid');
+  const list = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.cat === filter);
+  grid.innerHTML = list.map(p => `
+    <div class="product-card" data-id="${p.id}" data-aos="fade-up">
+      <div class="product-img-wrap">
+        ${p.badge ? `<span class="product-badge ${p.badge==='Premium'?'sale':'new'}">${p.badge}</span>` : ''}
+        <button class="wishlist-btn" onclick="toggleWish(event,${p.id})" id="wish-${p.id}"><i class="far fa-heart"></i></button>
+        <img class="product-img-main" src="${p.img}" alt="${p.name}" loading="lazy">
+        <img class="product-img-hover" src="${p.img2}" alt="${p.name}" loading="lazy">
+        <div class="quick-add">
+          ${p.sizes.map(s => `<button class="qs" onclick="quickAdd(event,${p.id},'${s}')">${s}</button>`).join('')}
+        </div>
+      </div>
+      <div class="product-info" onclick="openModal(${p.id})">
+        <div class="product-cat">${catLabel(p.cat)}</div>
+        <h3>${p.name}</h3>
+        <div class="price-row"><span class="price">$${p.price.toLocaleString()}</span></div>
+        <div class="color-dots">
+          ${p.colors.map(c => `<span class="cdot" style="background:${c.hex}" title="${c.name}"></span>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function catLabel(cat){
+  return {hoodies:'Hoodies',camisetas:'Camisetas',pantalones:'Pantalones',accesorios:'Accesorios'}[cat]||cat;
+}
+
+// ── FILTER TABS ────────────────────────────────────────────
+document.querySelectorAll('.filter-tab').forEach(btn => {
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    renderProducts(this.dataset.filter);
+  });
+});
+
+// ── WISHLIST ───────────────────────────────────────────────
+const wishlist = new Set();
+function toggleWish(e, id){
+  e.stopPropagation();
+  const btn = document.getElementById('wish-'+id);
+  if(wishlist.has(id)){
+    wishlist.delete(id);
+    btn.innerHTML = '<i class="far fa-heart"></i>';
+    btn.classList.remove('active');
+  } else {
+    wishlist.add(id);
+    btn.innerHTML = '<i class="fas fa-heart"></i>';
+    btn.classList.add('active');
+    showToast('❤️ Agregado a favoritos');
+  }
+}
+
+// ── QUICK ADD ──────────────────────────────────────────────
+function quickAdd(e, id, size){
+  e.stopPropagation();
+  const p = PRODUCTS.find(x => x.id === id);
+  addToCart(p, size, p.colors[0].name);
+}
+
+// ── MODAL ──────────────────────────────────────────────────
+function openModal(id){
+  const p = PRODUCTS.find(x => x.id === id);
+  activeProduct = p;
+  selectedColor = p.colors[0].name;
+  selectedSize = null;
+
+  document.getElementById('modalImg').src = p.img;
+  document.getElementById('modalCat').textContent = catLabel(p.cat);
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalPrice').innerHTML = `$${p.price.toLocaleString()} <sub>MXN</sub>`;
+  document.getElementById('modalDesc').textContent = p.desc;
+
+  document.getElementById('modalColors').innerHTML = p.colors.map((c,i) =>
+    `<span class="m-color ${i===0?'active':''}" style="background:${c.hex}" title="${c.name}" onclick="selectColor('${c.name}',this)"></span>`
+  ).join('');
+
+  document.getElementById('modalSizes').innerHTML = p.sizes.map(s =>
+    `<button class="m-size" onclick="selectSize('${s}',this)">${s}</button>`
+  ).join('');
+
+  document.getElementById('modalAddBtn').disabled = p.sizes.length > 1;
+  document.getElementById('modalAddBtn').textContent = p.sizes.length > 1 ? 'Selecciona una talla' : 'Agregar al carrito';
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function selectColor(name, el){
+  selectedColor = name;
+  document.querySelectorAll('.m-color').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  const ci = activeProduct.colors.findIndex(c => c.name === name);
+  if(ci > 0) document.getElementById('modalImg').src = activeProduct.img2;
+  else document.getElementById('modalImg').src = activeProduct.img;
+}
+
+function selectSize(s, el){
+  selectedSize = s;
+  document.querySelectorAll('.m-size').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  const btn = document.getElementById('modalAddBtn');
+  btn.disabled = false;
+  btn.textContent = 'Agregar al carrito';
+}
+
+function addFromModal(){
+  if(!activeProduct) return;
+  const size = selectedSize || activeProduct.sizes[0];
+  addToCart(activeProduct, size, selectedColor || activeProduct.colors[0].name);
+  closeModalDirect();
+}
+
+function closeModal(e){ if(e.target === document.getElementById('modalOverlay')) closeModalDirect(); }
+function closeModalDirect(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModalDirect(); });
+
+// ── CART ───────────────────────────────────────────────────
+function addToCart(product, size, color){
+  const key = `${product.id}-${size}-${color}`;
+  const ex = cart.find(i => i.key === key);
+  if(ex){ ex.qty++; } else { cart.push({key, product, size, color, qty:1}); }
+  updateCartUI();
+  openCart();
+  showToast(`✓ ${product.name} agregado`);
+}
+
+function changeQty(key, delta){
+  const item = cart.find(i => i.key === key);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty <= 0) cart = cart.filter(i => i.key !== key);
+  updateCartUI();
+}
+
+function removeItem(key){
+  cart = cart.filter(i => i.key !== key);
+  updateCartUI();
+}
+
+function updateCartUI(){
+  const total = cart.reduce((s,i) => s + i.product.price * i.qty, 0);
+  const count = cart.reduce((s,i) => s + i.qty, 0);
+
+  const badge = document.getElementById('cartBadge');
+  badge.textContent = count;
+  badge.style.display = count > 0 ? 'flex' : 'none';
+  document.getElementById('cartCount').textContent = count > 0 ? `(${count})` : '';
+  document.getElementById('cartTotal').textContent = `$${total.toLocaleString()} MXN`;
+
+  document.getElementById('cartBody').innerHTML = cart.length === 0
+    ? '<div class="cart-empty-msg"><i class="fas fa-shopping-bag"></i><br>Tu carrito está vacío</div>'
+    : cart.map(i => `
+      <div class="cart-item">
+        <img src="${i.product.img}" alt="${i.product.name}">
+        <div>
+          <div class="ci-name">${i.product.name}</div>
+          <div class="ci-meta">${i.color} · ${i.size}</div>
+          <div class="ci-qty">
+            <button onclick="changeQty('${i.key}',-1)">−</button>
+            <span>${i.qty}</span>
+            <button onclick="changeQty('${i.key}',+1)">+</button>
+          </div>
+        </div>
+        <div class="ci-right">
+          <span class="ci-price">$${(i.product.price*i.qty).toLocaleString()}</span>
+          <button class="ci-remove" onclick="removeItem('${i.key}')">×</button>
+        </div>
+      </div>`).join('');
+}
+
+function openCart(){
+  document.getElementById('cartSidebar').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart(){
+  document.getElementById('cartSidebar').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── WHATSAPP ORDER ─────────────────────────────────────────
+function orderWhatsApp(){
+  if(cart.length === 0){ showToast('Tu carrito está vacío'); return; }
+  const lines = cart.map(i => `• ${i.qty}x ${i.product.name} (${i.color}, Talla ${i.size}) — $${(i.product.price*i.qty).toLocaleString()} MXN`).join('\n');
+  const total = cart.reduce((s,i) => s + i.product.price*i.qty, 0);
+  const msg = `¡Hola! Quiero hacer este pedido de NORTE CO.:\n\n${lines}\n\n*Total: $${total.toLocaleString()} MXN*\n\n¿Cómo procedo con el pago?`;
+  window.open(`https://wa.me/52TUNUMERO?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ── TOAST ──────────────────────────────────────────────────
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── NEWSLETTER ────────────────────────────────────────────
+function subscribeNewsletter(btn){
+  const input = btn.previousElementSibling;
+  if(!input.value || !input.value.includes('@')){ showToast('Ingresa un correo válido'); return; }
+  btn.textContent = '¡Listo! ✓';
+  btn.style.background = '#16a34a';
+  input.value = '';
+  showToast('🎉 10% de descuento enviado a tu correo');
+}
+
+// ── MOBILE MENU ────────────────────────────────────────────
+function toggleMenu(){ showToast('Menú próximamente'); }
+</script>
+</body>
+</html>
